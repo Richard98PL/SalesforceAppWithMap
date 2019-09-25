@@ -1,0 +1,142 @@
+<aura:component access="global" implements="force:appHostable,force:hasRecordId,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" >
+
+        <aura:attribute name="newAccount" type="Object"/>
+        <aura:attribute name="simpleNewAccount" type="Object"/>
+        <aura:attribute name="newAccountError" type="String"/>
+        <aura:attribute name="isOpen" type="boolean" default="false"/>
+
+        <ltng:require
+        styles="{!$Resource.SLDS252 +
+            '/styles/salesforce-lightning-design-system.min.css'}" />
+            
+            <lightning:card title="Motorcyclepl Divisions" iconName="standard:work_order" >
+         
+                <div class="padding">
+
+                    <div class="slds-clearfix">
+
+                    <lightning:layout class="slds-float_right">
+                    
+                        <lightning:button
+                                        label="New Division"
+                                        title="New Division"
+                                        onclick="{!c.openModel}"  
+                                        class="slds-button slds-button_neutral"/>
+
+                    </lightning:layout>
+
+                    </div>
+
+                </div>
+
+                <aura:if isTrue="{!v.isOpen}">
+                    
+                    <!--###### MODAL BOX Start######--> 
+                    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                       
+                        <div class="slds-modal__container">  
+
+                            <header class="slds-modal__header">
+
+                                <lightning:buttonIcon iconName="utility:close"
+                                                      onclick="{! c.closeModel }"
+                                                      alternativeText="close"
+                                                      variant="bare-inverse"
+                                                      class="slds-modal__close"/>
+
+                                <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">New Division Form</h2>
+
+                            </header>
+
+                            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+
+                                <p>
+                                    <b>
+
+                                    Create new Motorcycle.pl division.
+
+                                    <force:recordData aura:id="accountRecordCreator" 
+                                        layoutType="FULL"
+                                        targetRecord="{!v.newAccount}"
+                                        targetFields="{!v.simpleNewAccount}"
+                                        targetError="{!v.newAccountError}" />
+
+                                    <div class="Create Account">
+
+                                            <lightning:card iconName="action:new_account" title="Create Account">
+
+                                                <div class="slds-p-horizontal--small">
+
+                                                    <lightning:input aura:id="accountField" label="Name" value="{!v.simpleNewAccount.Name}" required="true"/>
+
+                                                    <lightning:select aura:id="accountCountry" label="Country" required="true" value="{!v.simpleNewAccount.Country__c}">
+
+                                                    <option value=''>Select country...</option>
+
+                                                    <option value="America">America</option>
+
+                                                    <option value="Czech Republic">Czech Republic</option>
+
+                                                    <option value="England">England</option>
+
+                                                    <option value="Germany">Germany</option>
+
+                                                    <option value="Ireland">Ireland</option>
+
+                                                    <option value="Poland">Poland</option>
+
+                                                    <option value="Russia">Russia</option>
+
+                                                </lightning:select>
+
+                                                    <lightning:input aura:id="accountStreet" label="Street" value="{!v.simpleNewAccount.BillingStreet}"/>
+
+                                                    <lightning:input aura:id="accountCity" label="City" value="{!v.simpleNewAccount.BillingCity}"/>
+
+                                                    <lightning:input aura:id="accountPhone" label="Phone" value="{!v.simpleNewAccount.Phone}"/>
+
+                                                    
+                                                </div>
+
+                                            </lightning:card>
+
+                                        </div>
+
+                                    <aura:if isTrue="{!not(empty(v.newAccountError))}">
+
+                                            <div class="accountError">
+
+                                                {!v.newAccountError}</div>
+
+                                        </aura:if>
+
+                                    </b>
+
+                                </p>
+
+                            </div>
+
+                            <footer class="slds-modal__footer">
+
+                                <lightning:button variant="neutral" 
+                                                  label="Cancel"
+                                                  title="Cancel"
+                                                  onclick="{!c.closeModel}"/>
+
+                                <lightning:button label="Save" 
+                                                    variant="brand" 
+                                                    onclick="{!c.handleSaveAccount}"/>
+
+                            </footer>
+
+                        </div>
+
+                    </section>
+
+                    <div class="slds-backdrop slds-backdrop_open"></div>
+
+                </aura:if>
+            
+        </lightning:card>
+
+</aura:component>

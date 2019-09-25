@@ -1,0 +1,41 @@
+<aura:component access="global" implements="force:appHostable,force:hasRecordId,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" >
+       
+    <aura:attribute name="accountRecord" type="Object"/>
+    <aura:attribute name="recordLoadError" type="String"/>
+    <aura:attribute name="TotalNumberOfRecord" type="Integer" default="0" description="use for display Number of records"/>
+    <aura:attribute name="fields" type="String[]" default="[]" />
+    <aura:attribute name="toggle" type="Boolean" default="false" />
+
+    <aura:registerEvent name ="DetailViewReturnEvent" type="c:DetailViewReturnEvent"/>
+
+    <aura:handler event="c:TableClickEvent" action="{!c.ForceDataEdit}"/>
+    <aura:handler event="c:DivisionClearEvent" action="{!c.ClearTable}"/>
+   
+    <ltng:require
+	        styles="{!$Resource.SLDS252 +
+                '/styles/salesforce-lightning-design-system.min.css'}" />
+
+    <lightning:card iconName="standard:lead_list" title="Details">
+
+        <aura:if isTrue="{!v.toggle}">
+
+            <div class="forceDataFormClass">
+
+                <lightning:spinner variant="brand" size="large" aura:id="Id_spinner" class="slds-hide" />
+                
+                <lightning:recordForm aura:id = "myRecordForm"
+                recordId="{!v.recordId}"
+                objectApiName="Account"
+                fields="{!v.fields}"
+                columns="3"
+                mode="edit" 
+                onsubmit="{!c.HandleSubmit}"
+                />
+
+            </div>
+
+        </aura:if>     
+
+    </lightning:card>
+
+</aura:component>

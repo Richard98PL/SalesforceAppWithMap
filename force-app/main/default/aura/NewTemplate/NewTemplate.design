@@ -1,0 +1,19 @@
+<design:component label="NewTemplate">
+    <flexipage:template >
+        <!-- The default width for the "left" region is "MEDIUM". In tablets,
+        the width is "SMALL" -->
+        
+         <flexipage:region name="top" label="Top Region" defaultWidth="Xlarge">
+            </flexipage:region>
+        
+            <flexipage:region name="left" label="Left Region" defaultWidth="SMALL">
+            </flexipage:region>
+        
+            <flexipage:region name="right" label="Right Region" defaultWidth="SMALL" />
+       </flexipage:template>
+    
+       <design:supportedFormFactors>
+         <design:supportedFormFactor type="Small"/>  
+        <design:supportedFormFactor type="Large"/>
+    </design:supportedFormFactors>
+</design:component>

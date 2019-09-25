@@ -1,0 +1,70 @@
+<aura:component controller="DivisionApexController" access="global" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" >
+    
+    <aura:attribute name="searchResult" type="List" description="use for store and display account list return from server"/>
+    <aura:attribute name="searchKeyword" type="String" description="use for store user search input"/>
+    <aura:attribute name="searchKeywordCountry" type="String" description="use for store user search input"/>
+    <aura:attribute name="Message" type="boolean" default="false" description="use for display no record found message"/>
+    <aura:attribute name="TotalNumberOfRecord" type="integer" default="0" description="use for display Number of records"/>
+
+    <aura:registerEvent  name ="DivisionEvent" type="c:DivisionEvent"/>  
+    <aura:registerEvent  name ="DivisionClearEvent" type="c:DivisionClearEvent"/>  
+
+    <aura:handler event="c:EnablingButtonEvent" action="{!c.EnableButton}"/>
+    
+    <ltng:require
+	        styles="{!$Resource.SLDS252 +
+                '/styles/salesforce-lightning-design-system.min.css'}" />
+    
+    <lightning:card  footer="" title="Search Form" iconName="standard:search"> 
+
+        <lightning:spinner variant="brand" size="large" aura:id="Id_spinner" class="slds-hide" />
+    
+        <div class="slds-m-around_medium">
+
+            <lightning:layout class="slds-align_absolute-center">
+
+                <lightning:layoutItem size="6" padding="around_large" >
+
+                    <lightning:input value="{!v.searchKeyword}"
+                                    required="false"
+                                    placeholder="search by Name.."
+                                    aura:id="searchField"
+                                    label="Account Name"/>
+            
+                    <lightning:input value="{!v.searchKeywordCountry}"
+                                    placeholder="search by Country.."
+                                    aura:id="searchFieldCountry"
+                                    label="*Country"
+                                    onchange ="{!c.TypingValidating}"/>
+
+                </lightning:layoutItem>
+
+            </lightning:layout>
+
+            <div class="slds-m-around_medium">
+
+                <lightning:layout class="slds-align_absolute-center">
+            
+                    <lightning:button onclick="{!c.Search}"
+                                    variant="brand"
+                                    label="Search" 
+                                    iconName="utility:search"/> 
+
+                    <lightning:button onclick="{!c.Clear}"
+                                    variant="brand"
+                                    label="Clear"
+                                    aura:id="clearButtonId"
+                                    iconName="utility:clear"
+                                    disabled="true"/>
+
+                    <lightning:button onclick="{!c.SearchAll}"
+                                    variant="brand"
+                                    label="Show All"                  
+                                    iconName="utility:database"/>   
+                                                   
+                </lightning:layout>
+
+            </div>
+        </div>
+    </lightning:card> 
+</aura:component>

@@ -1,0 +1,9 @@
+.THIS {
+    position: sticky;
+    top: 6rem;
+    z-index: 2;
+}
+
+.THIS .padding{
+    padding-right: 1em;
+}

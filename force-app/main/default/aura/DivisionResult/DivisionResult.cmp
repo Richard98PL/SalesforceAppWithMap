@@ -1,0 +1,66 @@
+<aura:component controller="DivisionApexController" access="global" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" >
+    
+    <aura:attribute name="searchResult" type="List" description="use for store and display account list return from server"/>
+    <aura:attribute name="searchKeyword" type="String" description="use for store user search input"/>
+    <aura:attribute name="searchKeywordCountry" type="String" description="use for store user search input"/>
+    <aura:attribute name="Message" type="boolean" default="false" description="use for display no record found message"/>
+    <aura:attribute name="TotalNumberOfRecord" type="integer" default="0" description="use for display Number of records"/>
+    <aura:attribute name="toggle" type="Boolean" default="false" />
+    
+    <aura:handler event="c:DivisionEvent" action="{!c.Search}"/>
+    <aura:handler event="c:DivisionClearEvent" action="{!c.ClearSearch}"/>
+    <aura:handler event="c:DetailViewReturnEvent" action="{!c.ResultReceiver}"/>
+    
+    <aura:registerEvent name ="TableClickEvent" type="c:TableClick"/>  
+    <aura:registerEvent name ="EnablingButtonEvent" type="c:EnablingButton"/>
+
+    <ltng:require
+	        styles="{!$Resource.SLDS252 +
+	            '/styles/salesforce-lightning-design-system.min.css'}" />
+
+    <lightning:card footer="" title="Details" iconName="standard:record"> 
+        <lightning:spinner variant="brand" size="large" aura:id="Id_spinner" class="slds-hide" />
+
+            <aura:if isTrue="{!v.toggle}">
+                <div class="slds-m-around_x-small" id="my-element1">
+                    <lightning:badge label="{!v.TotalNumberOfRecord}" />
+                </div>
+
+                <aura:if isTrue="{!v.Message}">
+                    <div class="slds-notify_container slds-is-relative">
+                        <div class="slds-notify slds-notify_toast slds-theme_error" role="alert">
+                            <div class="slds-notify__content">
+                                <h2 class="slds-text-heading_small">No Records Found...</h2>
+                            </div>
+                        </div>
+                    </div>
+                </aura:if>
+
+                <table  id="searchTable" class="myTable">
+                    <thead>
+                        <tr class="slds-text-title_caps">
+                            <th scope="col">
+                                <div class="slds-truncate" title="Account Name">Account Name</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Country">Country</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody> 
+
+                    <aura:iteration items="{!v.searchResult}" var="acc" indexVar="count">
+                        <tr class="{! count % 2  ? '' : 'tier-one' }" onclick="{!c.MapShow}" id="{!count +'tablerow'}" data-value="{!acc.Id}">
+                            <td >
+                                <div class="slds-truncate">{!acc.Name}</div>
+                            </td>
+                            <td>
+                                <div class="slds-truncate">{!acc.Country__c}</div>
+                            </td>
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>
+        </aura:if>
+    </lightning:card>
+</aura:component>
